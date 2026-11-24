@@ -1,0 +1,15 @@
+build/
+
+.settings/
+.vscode/
+
+.mxproject
+
+.cache/
+
+*.log
+*.tmp
+*.bak
+
+.DS_Store
+Thumbs.db
