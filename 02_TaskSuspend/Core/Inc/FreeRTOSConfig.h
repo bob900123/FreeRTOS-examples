@@ -1,0 +1,101 @@
+#ifndef FREERTOS_CONFIG_H
+#define FREERTOS_CONFIG_H
+
+/* STM32F103C8T6 / Cortex-M3 / GCC / FreeRTOS Kernel V11.3.3
+ * Native FreeRTOS API, heap_4.c, SysTick kernel tick.
+ * Configure HAL timebase to a separate timer (e.g. TIM2) in CubeMX.
+ */
+#include "stm32f1xx.h"
+
+/* Scheduling */
+#define configUSE_PREEMPTION                         1
+#define configUSE_TIME_SLICING                       1
+#define configCPU_CLOCK_HZ                           ( SystemCoreClock )
+#define configTICK_RATE_HZ                           1000U
+#define configMAX_PRIORITIES                         5
+#define configMINIMAL_STACK_SIZE                     128
+#define configMAX_TASK_NAME_LEN                      16
+#define configTICK_TYPE_WIDTH_IN_BITS                TICK_TYPE_WIDTH_32_BITS
+#define configIDLE_SHOULD_YIELD                      1
+#define configUSE_TICKLESS_IDLE                      0
+#define configUSE_PORT_OPTIMISED_TASK_SELECTION      1
+
+/* Memory: 20 KB SRAM MCU; adjust based on linker RAM usage. */
+#define configSUPPORT_STATIC_ALLOCATION              0
+#define configSUPPORT_DYNAMIC_ALLOCATION             1
+#define configTOTAL_HEAP_SIZE                        ( 8U * 1024U )
+#define configAPPLICATION_ALLOCATED_HEAP             0
+
+/* Synchronization and kernel services */
+#define configUSE_MUTEXES                            1
+#define configUSE_RECURSIVE_MUTEXES                  1
+#define configUSE_COUNTING_SEMAPHORES                1
+#define configUSE_TASK_NOTIFICATIONS                 1
+#define configTASK_NOTIFICATION_ARRAY_ENTRIES        1
+#define configUSE_EVENT_GROUPS                       1
+#define configUSE_STREAM_BUFFERS                     1
+#define configUSE_QUEUE_SETS                         0
+#define configQUEUE_REGISTRY_SIZE                    0
+
+/* Software timers: include timers.c in CMake. */
+#define configUSE_TIMERS                             1
+#define configTIMER_TASK_PRIORITY                    ( configMAX_PRIORITIES - 2 )
+#define configTIMER_QUEUE_LENGTH                     5
+#define configTIMER_TASK_STACK_DEPTH                 128
+
+/* Hooks and debugging */
+#define configUSE_IDLE_HOOK                          0
+#define configUSE_TICK_HOOK                          0
+#define configUSE_MALLOC_FAILED_HOOK                 0
+#define configCHECK_FOR_STACK_OVERFLOW               0
+#define configUSE_TRACE_FACILITY                     1
+#define configGENERATE_RUN_TIME_STATS                0
+#define configUSE_STATS_FORMATTING_FUNCTIONS         1
+#define configUSE_NEWLIB_REENTRANT                   0
+#define configUSE_CO_ROUTINES                        0
+
+/* STM32F103: 4 implemented NVIC priority bits. CMSIS priority numbers 0..15. */
+#define configPRIO_BITS                              __NVIC_PRIO_BITS
+#define configLIBRARY_LOWEST_INTERRUPT_PRIORITY     15
+#define configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY 5
+#define configKERNEL_INTERRUPT_PRIORITY             ( configLIBRARY_LOWEST_INTERRUPT_PRIORITY << ( 8 - configPRIO_BITS ) )
+#define configMAX_SYSCALL_INTERRUPT_PRIORITY         ( configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY << ( 8 - configPRIO_BITS ) )
+#define configMAX_API_CALL_INTERRUPT_PRIORITY        configMAX_SYSCALL_INTERRUPT_PRIORITY
+#define configCHECK_HANDLER_INSTALLATION             1
+
+/* Optional FreeRTOS APIs */
+#define INCLUDE_vTaskPrioritySet                     1
+#define INCLUDE_uxTaskPriorityGet                    1
+#define INCLUDE_vTaskDelete                          1
+#define INCLUDE_vTaskSuspend                         1
+#define INCLUDE_vTaskDelay                           1
+#define INCLUDE_xTaskDelayUntil                      1
+#define INCLUDE_xTaskGetSchedulerState               1
+#define INCLUDE_xTaskGetCurrentTaskHandle            1
+#define INCLUDE_uxTaskGetStackHighWaterMark          1
+#define INCLUDE_xTaskGetIdleTaskHandle               1
+#define INCLUDE_eTaskGetState                        1
+#define INCLUDE_xTimerPendFunctionCall               1
+#define INCLUDE_xTaskAbortDelay                      1
+#define INCLUDE_xTaskGetHandle                       1
+#define INCLUDE_xTaskResumeFromISR                   1
+
+/* Assert: halt in debugger when an RTOS assumption is violated. */
+#define configASSERT( x )                            \
+    do {                                             \
+        if( ( x ) == 0 ) {                           \
+            __disable_irq();                         \
+            for( ;; ) { __NOP(); }                   \
+        }                                            \
+    } while( 0 )
+
+/* Map FreeRTOS Cortex-M3 port handlers to STM32 vector-table names.
+ * Remove duplicate SVC_Handler/PendSV_Handler/SysTick_Handler
+ * definitions from Core/Src/stm32f1xx_it.c.
+ */
+#define vPortSVCHandler                              SVC_Handler
+#define xPortPendSVHandler                           PendSV_Handler
+#define xPortSysTickHandler                          SysTick_Handler
+
+
+#endif /* FREERTOS_CONFIG_H */
