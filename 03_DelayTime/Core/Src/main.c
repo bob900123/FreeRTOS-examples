@@ -54,9 +54,7 @@
 /* USER CODE BEGIN PV */
 TaskHandle_t task1_handle = NULL;
 TaskHandle_t task2_handle = NULL;
-TaskHandle_t task3_handle = NULL;
 TaskHandle_t start_task_handler = NULL;
-char TaskListBuffer[1024];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -66,7 +64,6 @@ void FreeRTOS_Start(void);
 void Start_Task(void *pvParameters);
 void Task1(void *argument);
 void Task2(void *argument);
-void Task3(void *argument);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
