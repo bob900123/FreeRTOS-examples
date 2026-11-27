@@ -12,3 +12,4 @@ STM32 FreeRTOS 練習與實作範例，使用 STM32F103C8T6、STM32CubeMX、CMak
 | 03 | Delay Time | 比較相對時間延遲與固定週期延遲的差異 |
 | 04 | Queue | 使用  Queue 實現任務之間的通訊 |
 | 05 | Binary Semaphore | 使用 Binary Semaphore 實現任務之間的同步 |
+| 06 | Queue Set | 透過 Queue Set 同時監聽 Queue 與 Binary Semaphore |
