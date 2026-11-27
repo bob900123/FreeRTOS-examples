@@ -1,6 +1,6 @@
 # FreeRTOS Project - Queue Set
 
-這是一個基於 STM32F103C8T6 微控制器的 FreeRTOS 示例專案，，展示如何透過 Queue Set 同時監聽 Queue 與 Binary Semaphore
+這是一個基於 STM32F103C8T6 微控制器的 FreeRTOS 示例專案，展示如何透過 Queue Set 同時監聽 Queue 與 Binary Semaphore
 
 ## 硬體需求
 
